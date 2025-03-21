@@ -1,17 +1,26 @@
 {
   "version": 2,
-  "builds": [
-    { "src": "api/auth.ts", "use": "@vercel/node" }
-  ],
+  "builds": [ [
+    {uth.ts" },
+      "src": "package.json",{
+      "use": "@vercel/static-build", "/form/:path*",
+      "config": {
+        "distDir": "dist",
+      }
+    }
+  ],"destination": "/index.html"
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/auth.ts" },
     {
-      "source": "/form/:path*",
-      "destination": "/index.html"
-    },
-    {
+      "source": "/form/:path*",      "destination": "/index.html"    },    {
       "source": "/(.*)",
       "destination": "/index.html"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
