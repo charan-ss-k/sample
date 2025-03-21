@@ -27,19 +27,20 @@ const SignUp = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Email already exists");
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to sign up");
       }
 
       toast({
-        title: "Account created",
-        description: "Welcome to Pexo Forms!",
+        title: "Sign-up successful",
+        description: "You can now log in with your credentials.",
       });
-      navigate("/");
-    } catch (error) {
+      navigate("/sign-in");
+    } catch (error: any) {
       toast({
+        title: "Sign-up failed",
+        description: error.message || "An error occurred. Please try again.",
         variant: "destructive",
-        title: "Sign up failed",
-        description: error instanceof Error ? error.message : "Something went wrong",
       });
     } finally {
       setIsLoading(false);

@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 dotenv.config(); // Load environment variables from .env file
 
 const app = express();
-app.use(cors());
+app.use(cors()); // Ensure CORS is enabled
 app.use(bodyParser.json());
 
 // MongoDB connection
@@ -34,12 +34,22 @@ const User = mongoose.model("User", userSchema);
 // Signup route
 app.post("/signup", async (req, res) => {
   const { name, email, password } = req.body;
+
+  if (!name || !email || !password) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
+
   try {
     const newUser = new User({ name, email, password });
     await newUser.save();
     res.status(201).json({ message: "User created successfully" });
   } catch (error) {
-    res.status(400).json({ error: "Email already exists" });
+    if (error.code === 11000) {
+      // Handle duplicate email error
+      res.status(400).json({ error: "Email already exists" });
+    } else {
+      res.status(500).json({ error: "Internal server error" });
+    }
   }
 });
 
