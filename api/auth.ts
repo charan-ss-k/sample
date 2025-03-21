@@ -7,7 +7,11 @@ import dotenv from "dotenv";
 dotenv.config(); // Load environment variables from .env file
 
 const app = express();
-app.use(cors()); // Ensure CORS is enabled
+app.use(cors({
+  origin: ["http://localhost:3000", "https://your-frontend-url.vercel.app"], // Replace with your frontend URLs
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+})); // Ensure CORS is enabled
 app.use(bodyParser.json());
 
 // MongoDB connection
@@ -97,6 +101,21 @@ app.post("/logout", authenticate, async (req, res) => {
     res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Health check route
+app.get("/health", async (req, res) => {
+  try {
+    // Check MongoDB connection state
+    const mongoState = mongoose.connection.readyState;
+    const states = ["Disconnected", "Connected", "Connecting", "Disconnecting"];
+    res.status(200).json({
+      status: "OK",
+      mongoConnection: states[mongoState] || "Unknown",
+    });
+  } catch (error) {
+    res.status(500).json({ status: "Error", error: error.message });
   }
 });
 

@@ -20,7 +20,7 @@ const SignUp = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:3001/signup", {
+      const response = await fetch("https://your-backend-url.vercel.app/signup", { // Replace with your deployed backend URL
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
