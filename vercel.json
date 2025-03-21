@@ -11,11 +11,11 @@
   ],
   "routes": [
     {
-      "src": "/assets/(.*)", // Serve static assets correctly
+      "src": "/assets/(.*)",
       "dest": "/assets/$1"
     },
     {
-      "src": "/(.*)", // Fallback to index.html for SPA routing
+      "src": "/(.*)",
       "dest": "/index.html"
     }
   ]
