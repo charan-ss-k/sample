@@ -4,6 +4,7 @@
     { "src": "api/auth.ts", "use": "@vercel/node" }
   ],
   "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/auth.ts" },
     {
       "source": "/form/:path*",
       "destination": "/index.html"
